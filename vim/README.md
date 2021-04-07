@@ -1,8 +1,3 @@
-# dotfiles
-The dotfiles I'd like having on a new computer
-
-I'm using [stow](https://github.com/aspiers/stow/) to manage the whole thing.
-
 ## Installation
 
 1. Run `check_deps.sh` to make sure you have everything
