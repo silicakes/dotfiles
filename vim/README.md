@@ -10,7 +10,7 @@ Hover over any word and press `K` (capital K/`shift+k`) to see a help manual, sy
 
 
 ## Useful leader shortcuts
-`\1` runs :PlugInstall
+`\1` runs `:PlugInstall`
 
 `\2` opens vims config in a separate tab (:q will close just that)
 
