@@ -3,7 +3,7 @@ The dotfiles I'd like having on a new computer
 
 I'm using [stow](https://github.com/aspiers/stow/) to manage the whole thing.
 
-## Instalation
+## Installation
 
 1. Run check_deps to make sure you have everything
 2. Make sure you have [vim-plug](https://github.com/junegunn/vim-plug) installed
