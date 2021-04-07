@@ -16,12 +16,17 @@ Hover over any word and press `K` (capital K/`shift+k`) to see a help manual, sy
 
 ## Useful leader shortcuts
 `\1` runs :PlugInstall
+
 `\2` opens vims config in a separate tab (:q will close just that)
+
 `\3` opens a terminal session in the current open buffers directory
+
 `\4` opens a list of buffers where the previous one is already preselected (so just \4 + enter to go back to the previous buffer)
   
 `\w` :w!
+
 `\q` :q!
+
 `\x` :x
 
 
