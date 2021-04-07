@@ -6,7 +6,8 @@ I'm using [stow](https://github.com/aspiers/stow/) to manage the whole thing.
 ## Instalation
 
 1. Run check_deps to make sure you have everything
-2. open vim in one of your projects and type :PlugInstall
+2. Make sure you have [vim-plug](https://github.com/junegunn/vim-plug) installed
+3. open vim in one of your projects and type :PlugInstall
 
 
 ## The most useful shortcut
