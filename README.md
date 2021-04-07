@@ -5,7 +5,7 @@ I'm using [stow](https://github.com/aspiers/stow/) to manage the whole thing.
 
 ## Installation
 
-1. Run check_deps to make sure you have everything
+1. Run `check_deps.sh` to make sure you have everything
 2. Make sure you have [vim-plug](https://github.com/junegunn/vim-plug) installed
 3. open vim in one of your projects and type :PlugInstall
 
