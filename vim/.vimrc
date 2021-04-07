@@ -1,16 +1,40 @@
 call plug#begin('~/.vim/plugged')
+" This is the LSP interface for various syntaxes and languages
 Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
+
+" A plugin that helps wrap and unwrap text with anything from <Tags/> to ''
 Plug 'tpope/vim-surround'
+
+" This plugin helps manage git in a visual way, try running :Gblame 
 Plug 'tpope/vim-fugitive'
+
+" This, along with a patched font, adds filetype/folder icons to the file tree
 Plug 'ryanoasis/vim-devicons'
+
+" accepts a list of lines and allows interactive search on it, 
+" I use it for finding files
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
+" Syntax highlight for JS
 Plug 'pangloss/vim-javascript'    " JavaScript support
+
+" Syntax highlight for JSX
 Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
+
+" syntax highlight forn graphql
 Plug 'jparise/vim-graphql'        " GraphQL syntax
+
+" A visualizer for CSV files
 Plug 'chrisbra/csv.vim'
+
+" The colorscheme for vim
 Plug 'morhetz/gruvbox'
+
+" The status line at the bottom
 Plug 'vim-airline/vim-airline'
+
+" Multi-cursor selector, similar to sublime/vscode try CTRL+n
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 " One day..
@@ -19,11 +43,21 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 " TODO: Figure out if I have any plugins that currently rely on ctags
 Plug 'ludovicchabant/vim-gutentags'
 
+" syntax hjighlight for styled components/emotion
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+
+" Provides aliases for commenting selected blocks of text, try \cc or \cu
 Plug 'preservim/nerdcommenter'
+
+" Adds a closing pair of parenthesis/quotation marks etc.. 
+" and places the cursor in the middle
 Plug 'jiangmiao/auto-pairs'
+
+" Colorizes #bada55 strings, locally, i have it patched to work with some edge
+" cases, there's a PR pending for that
 Plug 'ap/vim-css-color'
 call plug#end()
+
 
 filetype plugin indent on
 syntax enable
@@ -33,7 +67,7 @@ nnoremap <silent><leader>2 :tabe ~/.vimrc<CR>
 nnoremap <leader>3 :let $VIM_DIR=expand('%:p:h')<CR>:terminal<CR>cd $VIM_DIR<CR>
 nnoremap <leader>4 :Buffers<CR> 
 
-" Fasmer saving and exiting
+" Faster saving and exiting
 nnoremap <silent><leader>w :w!<CR>
 nnoremap <silent><leader>q :q!<CR>
 nnoremap <silent><leader>x :x<CR>
@@ -41,29 +75,40 @@ nnoremap <silent><leader>x :x<CR>
 " Quickly insert an empty new line without entering insert mode
 nnoremap <Leader>o o<Esc>
 nnoremap <Leader>O O<Esc>
+
+" remapping esc to 'jk' in order to type faster
 inoremap jk <ESC>
 
 " Redo with U instead of Ctrl+R
 noremap U <C-R>
+
+" CTRL-p will trigger fzf of files that are staged in the repo
 nnoremap <C-p> :GFiles<Cr>
+
+" CTRL-r will trigger Rg (ripgrep) inside the CWD
 nnoremap <C-r> :Rg<Cr>
+
+" Ctrl-j opens a terminal session inside the current buffers directory
 nnoremap <C-j> :terminal<Cr>
+
+" Ctrl-b Opens the file explorer, marking the current file in the buffer
 nnoremap <silent> <expr> <C-b> "\:CocCommand explorer<CR>"
 
-" toggle relative number
+" \rn toggles between relative and absolute numbers
 nnoremap <leader>rn :set relativenumber!<cr>
+
 
 "====CoC Config===="
 
-" GoTo code navigation.
+" GoTo code navigation. the commands are self explanatory
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>ac <Plug>(coc-codeaction)
+
 " Symbol renaming.
 nmap <leader>rr <Plug>(coc-rename)
-
 
 " Use CTRL-S for selections ranges.
 " Requires 'textDocument/selectionRange' support of language server.
