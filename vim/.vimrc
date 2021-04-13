@@ -1,3 +1,8 @@
+
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
 call plug#begin('~/.vim/plugged')
 " This is the LSP interface for various syntaxes and languages
 Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
@@ -56,6 +61,9 @@ Plug 'jiangmiao/auto-pairs'
 " Colorizes #bada55 strings, locally, i have it patched to work with some edge
 " cases, there's a PR pending for that
 Plug 'ap/vim-css-color'
+
+" Momentarily highlights yanked text
+Plug 'machakann/vim-highlightedyank'
 call plug#end()
 
 
@@ -160,16 +168,19 @@ endfunction
 
 "==== End of CoC Config ===="
 
+" number and relativenumber set the hybrid mode where the cursor displays the
+" current line, but the rest is relative
 set number
-set noswapfile
 set relativenumber
+set noswapfile
 set hlsearch
 set incsearch
 set guitablabel=%t
 set laststatus=2
 set autochdir
 
-set re=0
+"set re=0
+set backspace=indent,eol,start
 
 " Indentation
 set autoindent
@@ -197,7 +208,7 @@ set encoding=utf-8
 set hidden
 
 " Give more space for displaying messages.
-set cmdheight=2
+"set cmdheight=2
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
@@ -212,12 +223,16 @@ else
   set signcolumn=yes
 endif
 
+" sets clipboard to OS (Mac only, for other platforms use 'unnamedplus')
 set clipboard=unnamed
 
+" Italics support
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
-let NERDTreeShowHidden=1
+" Highlight duration of vim-highlighted-yank
+let g:highlightedyank_highlight_duration = 25
+
 " CoC extensions
 let g:coc_global_extensions = ['coc-explorer', 'coc-tsserver', 'coc-json']
 
@@ -248,6 +263,7 @@ let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
+" sets up gruvbx
 function! GruvboxTheme()
   let g:gruvbox_italic=1
   let g:gruvbox_bold=1
