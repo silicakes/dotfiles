@@ -70,18 +70,32 @@ call plug#end()
 filetype plugin indent on
 syntax enable
 
+" Leader mappings, currentl eader is \
+" \1 Runs Pluginstall, handy running after adding a new plugin
 nnoremap <silent><leader>1 :source ~/.vimrc \| :PlugInstall<CR>
+
+" \2 Opens .vimrc ins a separate tab
 nnoremap <silent><leader>2 :tabe ~/.vimrc<CR>
+
+" \3 Opens a terminal session in the current files directory
 nnoremap <leader>3 :let $VIM_DIR=expand('%:p:h')<CR>:terminal<CR>cd $VIM_DIR<CR>
+
+" \4 Opens a list of the recent buffers (depends on fzf) where the previous -
+" buffer is preselected
 nnoremap <leader>4 :Buffers<CR> 
 
 " Faster saving and exiting
+" \w
 nnoremap <silent><leader>w :w!<CR>
+" \q
 nnoremap <silent><leader>q :q!<CR>
+" \x
 nnoremap <silent><leader>x :x<CR>
 
 " Quickly insert an empty new line without entering insert mode
+" \o
 nnoremap <Leader>o o<Esc>
+" \O
 nnoremap <Leader>O O<Esc>
 
 " remapping esc to 'jk' in order to type faster
@@ -105,6 +119,11 @@ nnoremap <silent> <expr> <C-b> "\:CocCommand explorer<CR>"
 " \rn toggles between relative and absolute numbers
 nnoremap <leader>rn :set relativenumber!<cr>
 
+" Jump to the beginning of the line in insert mode
+inoremap <C-a> <C-o>I
+
+" Jump to the end of the line in insert mode
+inoremap <C-e> <C-o>A
 
 "====CoC Config===="
 
