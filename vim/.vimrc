@@ -5,7 +5,7 @@ set nocompatible
 
 call plug#begin('~/.vim/plugged')
 " This is the LSP interface for various syntaxes and languages
-Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
+Plug 'neoclide/coc.nvim' , { 'branch' : 'release', 'do': { -> coc#util#install()  } }
 
 " A plugin that helps wrap and unwrap text with anything from <Tags/> to ''
 Plug 'tpope/vim-surround'
@@ -54,9 +54,6 @@ Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 " Provides aliases for commenting selected blocks of text, try \cc or \cu
 Plug 'preservim/nerdcommenter'
 
-" Adds a closing pair of parenthesis/quotation marks etc.. 
-" and places the cursor in the middle
-Plug 'jiangmiao/auto-pairs'
 
 " Colorizes #bada55 strings, locally, i have it patched to work with some edge
 " cases, there's a PR pending for that
@@ -64,6 +61,10 @@ Plug 'ap/vim-css-color'
 
 " Momentarily highlights yanked text
 Plug 'machakann/vim-highlightedyank'
+
+" Log highlighting
+Plug 'mtdl9/vim-log-highlighting'
+
 call plug#end()
 
 
@@ -133,6 +134,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>ac <Plug>(coc-codeaction)
+noremap <silent><nowait> <space>d :call CocAction('jumpDefinition', v:false)<CR>
 
 " Symbol renaming.
 nmap <leader>rr <Plug>(coc-rename)
@@ -198,8 +200,16 @@ set guitablabel=%t
 set laststatus=2
 set autochdir
 
-"set re=0
+set re=0
 set backspace=indent,eol,start
+
+" case-insensitive search when phrase is all lower case, case sensitive when
+" it's not
+set smartcase
+
+" when openning an already opened file, jump to that buffer instead of openning
+" another one
+set switchbuf=usetab
 
 " Indentation
 set autoindent
@@ -213,6 +223,7 @@ set softtabstop=2 " Number of spaces a tab counts when editing
 set expandtab
 set modifiable
 set wildignore+=*node_modules/**
+set wildignore+=*build/**
 
 " Enable folding
 set foldmethod=syntax
@@ -252,8 +263,12 @@ let &t_ZR="\e[23m"
 " Highlight duration of vim-highlighted-yank
 let g:highlightedyank_highlight_duration = 25
 
+
 " CoC extensions
-let g:coc_global_extensions = ['coc-explorer', 'coc-tsserver', 'coc-json']
+
+" coc-pairse Adds a closing pair of parenthesis/quotation marks etc.. 
+" and places the cursor in the middle
+let g:coc_global_extensions = ['coc-explorer', 'coc-tsserver', 'coc-json', 'coc-pairs']
 
 if(isdirectory('./node_modules'))
   let nm = './node_modules'
