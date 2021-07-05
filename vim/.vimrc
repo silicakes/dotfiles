@@ -10,6 +10,9 @@ Plug 'neoclide/coc.nvim' , { 'branch' : 'release', 'do': { -> coc#util#install()
 " A plugin that helps wrap and unwrap text with anything from <Tags/> to ''
 Plug 'tpope/vim-surround'
 
+" Shows diff status in gutter line
+Plug 'airblade/vim-gitgutter'
+
 " This plugin helps manage git in a visual way, try running :Gblame 
 Plug 'tpope/vim-fugitive'
 
@@ -21,21 +24,13 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
-" Syntax highlight for JS
-Plug 'pangloss/vim-javascript'    " JavaScript support
-
-" Syntax highlight for JSX
-Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
-
-" syntax highlight forn graphql
-Plug 'jparise/vim-graphql'        " GraphQL syntax
-
 " A visualizer for CSV files
 Plug 'chrisbra/csv.vim'
 
 " The colorscheme for vim
 Plug 'morhetz/gruvbox'
-
+Plug 'sainnhe/gruvbox-material'
+Plug 'ghifarit53/tokyonight-vim'
 " The status line at the bottom
 Plug 'vim-airline/vim-airline'
 
@@ -43,10 +38,22 @@ Plug 'vim-airline/vim-airline'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 " One day..
-"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+if(has("nvim")) 
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+  Plug 'nvim-treesitter/playground'
+else
+  " Syntax highlight for JS
+  Plug 'pangloss/vim-javascript'    " JavaScript support
+  
+  " Syntax highlight for JSX
+  Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
+  
+  " syntax highlight forn graphql
+  Plug 'jparise/vim-graphql'        " GraphQL syntax
+endif
 
 " TODO: Figure out if I have any plugins that currently rely on ctags
-Plug 'ludovicchabant/vim-gutentags'
+"Plug 'ludovicchabant/vim-gutentags'
 
 " syntax hjighlight for styled components/emotion
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
@@ -127,6 +134,10 @@ inoremap <C-a> <C-o>I
 inoremap <C-e> <C-o>A
 
 "====CoC Config===="
+"nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+"nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+"inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+"inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>
 
 " GoTo code navigation. the commands are self explanatory
 nmap <silent> gd <Plug>(coc-definition)
@@ -198,9 +209,9 @@ set hlsearch
 set incsearch
 set guitablabel=%t
 set laststatus=2
-set autochdir
+"set autochdir
 
-set re=0
+"set re=0
 set backspace=indent,eol,start
 
 " case-insensitive search when phrase is all lower case, case sensitive when
@@ -224,6 +235,7 @@ set expandtab
 set modifiable
 set wildignore+=*node_modules/**
 set wildignore+=*build/**
+set wildignore+=*.min.js
 
 " Enable folding
 set foldmethod=syntax
@@ -246,12 +258,12 @@ set updatetime=300
 
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
-if has("patch-8.1.1564")
+"if has("patch-8.1.1564")
   " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
+  "set signcolumn=number
+"else
   set signcolumn=yes
-endif
+"endif
 
 " sets clipboard to OS (Mac only, for other platforms use 'unnamedplus')
 set clipboard=unnamed
@@ -287,6 +299,20 @@ if(isdirectory('./node_modules'))
   endif
 endif
 
+if(has("nvim"))
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true,
+    },
+    incremental_selection = {
+        enable = false,
+    },
+    ensure_installed = {'javascript'}
+}
+EOF
+endif
+
 " Important 
 set termguicolors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -296,6 +322,8 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
+let g:markdown_fenced_languages = [  'vim',  'help' ]
 
 " sets up gruvbx
 function! GruvboxTheme()
@@ -307,6 +335,22 @@ function! GruvboxTheme()
   colorscheme gruvbox
 endfunction
 
+function! TokyoNightsTheme()
+  let g:airline_theme = "tokyonight"
+  let g:tokyonight_style = 'night' " available: night, storm
+  let g:tokyonight_enable_italic = 1
+  colorscheme tokyonight
+endfunction
+      
+function! GruvboxMaterialTheme()
+  let g:airline_theme = 'gruvbox_material'
+  let g:gruvbox_material_background = 'hard'
+  let g:gruvbox_material_enable_italic = 1
+  let g:gruvbox_material_palette='mix'
+  colorscheme gruvbox-material
+endfunction
 "set background=dark
-call GruvboxTheme()
+"call GruvboxTheme()
+call GruvboxMaterialTheme()
+"call TokyoNightsTheme()
 
