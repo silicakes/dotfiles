@@ -10,6 +10,11 @@
   "explorer.icon.enableNerdfont": true,
   "explorer.file.showHiddenFiles": true,
   "languageserver": {
+    "daml": {
+      "command": "daml",
+      "args": ["damlc", "ide", "--RTS", "+RTS", "-M6G", "-N"],
+      "filetypes": ["daml", "haskell"]
+    },
     "graphql": {
       "command": "graphql-lsp",
       "args": ["server", "-m", "stream"],

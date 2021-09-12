@@ -26,11 +26,17 @@ Plug 'junegunn/fzf.vim'
 
 " A visualizer for CSV files
 Plug 'chrisbra/csv.vim'
+Plug 'chr4/nginx.vim'
+
+" markdown preview
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 " The colorscheme for vim
 Plug 'morhetz/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 Plug 'ghifarit53/tokyonight-vim'
+Plug 'savq/melange'
+  
 " The status line at the bottom
 Plug 'vim-airline/vim-airline'
 
@@ -41,6 +47,9 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 if(has("nvim")) 
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
   Plug 'nvim-treesitter/playground'
+  Plug 'shaunsingh/nord.nvim'
+  Plug 'RRethy/vim-illuminate'
+  Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 else
   " Syntax highlight for JS
   Plug 'pangloss/vim-javascript'    " JavaScript support
@@ -50,6 +59,10 @@ else
   
   " syntax highlight forn graphql
   Plug 'jparise/vim-graphql'        " GraphQL syntax
+
+  " nord theme without treesitter support
+  Plug 'arcticicestudio/nord-vim'
+
 endif
 
 " TODO: Figure out if I have any plugins that currently rely on ctags
@@ -238,7 +251,9 @@ set wildignore+=*build/**
 set wildignore+=*.min.js
 
 " Enable folding
-set foldmethod=syntax
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+
 set foldlevel=99
 
 
@@ -302,14 +317,14 @@ endif
 if(has("nvim"))
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-    highlight = {
-        enable = true,
-    },
-    incremental_selection = {
-        enable = false,
-    },
-    ensure_installed = {'javascript'}
+  highlight = { enable = true },
+  incremental_selection = { enable = false },
+  context_commentstring = { enable = true },
+  ensure_installed = 'javascript'
 }
+
+vim.wo.foldmethod = 'expr'
+vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
 EOF
 endif
 
@@ -337,7 +352,7 @@ endfunction
 
 function! TokyoNightsTheme()
   let g:airline_theme = "tokyonight"
-  let g:tokyonight_style = 'night' " available: night, storm
+  let g:tokyonight_style = 'storm' " available: night, storm
   let g:tokyonight_enable_italic = 1
   colorscheme tokyonight
 endfunction
@@ -349,6 +364,14 @@ function! GruvboxMaterialTheme()
   let g:gruvbox_material_palette='mix'
   colorscheme gruvbox-material
 endfunction
+
+function! NordTheme()
+  if(!has('nvim'))
+    let g:airline_theme = 'nord'
+  endif
+  colorscheme nord
+endfunction
+
 "set background=dark
 "call GruvboxTheme()
 call GruvboxMaterialTheme()
