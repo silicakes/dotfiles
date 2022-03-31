@@ -4,7 +4,9 @@
     "javascriptreact",
     "typescriptreact",
     "typescript",
-    "json"
+    "json",
+    "scss",
+    "graphql"
   ],
   "eslint.autoFixOnSave": true,
   "explorer.icon.enableNerdfont": true,

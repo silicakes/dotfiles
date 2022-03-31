@@ -28,14 +28,16 @@ Plug 'junegunn/fzf.vim'
 Plug 'chrisbra/csv.vim'
 Plug 'chr4/nginx.vim'
 
-" markdown preview
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+" markdown support
+Plug 'ellisonleao/glow.nvim'
 
 " The colorscheme for vim
 Plug 'morhetz/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'savq/melange'
+
+Plug 'artanikin/vim-synthwave84'
   
 " The status line at the bottom
 Plug 'vim-airline/vim-airline'
@@ -48,21 +50,29 @@ if(has("nvim"))
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
   Plug 'nvim-treesitter/playground'
   Plug 'shaunsingh/nord.nvim'
+
+  " Vim plugin for automatically highlighting other uses of the word under the cursor. I
   Plug 'RRethy/vim-illuminate'
   Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+  
+  "string color colorizer
+  Plug 'norcalli/nvim-colorizer.lua'
 else
   " Syntax highlight for JS
-  Plug 'pangloss/vim-javascript'    " JavaScript support
+  "Plug 'pangloss/vim-javascript'    " JavaScript support
   
   " Syntax highlight for JSX
-  Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
+  "Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
   
   " syntax highlight forn graphql
-  Plug 'jparise/vim-graphql'        " GraphQL syntax
+  "Plug 'jparise/vim-graphql'        " GraphQL syntax
 
   " nord theme without treesitter support
   Plug 'arcticicestudio/nord-vim'
 
+  " Colorizes #bada55 strings, locally, i have it patched to work with some edge
+  " cases, there's a PR pending for that
+  Plug 'ap/vim-css-color'
 endif
 
 " TODO: Figure out if I have any plugins that currently rely on ctags
@@ -73,11 +83,6 @@ Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
 " Provides aliases for commenting selected blocks of text, try \cc or \cu
 Plug 'preservim/nerdcommenter'
-
-
-" Colorizes #bada55 strings, locally, i have it patched to work with some edge
-" cases, there's a PR pending for that
-Plug 'ap/vim-css-color'
 
 " Momentarily highlights yanked text
 Plug 'machakann/vim-highlightedyank'
@@ -145,6 +150,16 @@ inoremap <C-a> <C-o>I
 
 " Jump to the end of the line in insert mode
 inoremap <C-e> <C-o>A
+
+" The following mappings in your vimrc provide a quick way to move lines of text up or down.
+" The mappings work in normal, insert and visual modes, allowing you to move the current 
+" line, or a selected block of lines.
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
 
 "====CoC Config===="
 "nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -223,6 +238,16 @@ set incsearch
 set guitablabel=%t
 set laststatus=2
 "set autochdir
+"
+
+" SpellCheck
+set spelllang=en,cjk
+"set spell=true
+
+" Enable folding
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+set foldlevel=99
 
 "set re=0
 set backspace=indent,eol,start
@@ -250,11 +275,6 @@ set wildignore+=*node_modules/**
 set wildignore+=*build/**
 set wildignore+=*.min.js
 
-" Enable folding
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
-
-set foldlevel=99
 
 
 " Set internal encoding of vim, not needed on neovim, since coc.nvim using some
@@ -290,12 +310,15 @@ let &t_ZR="\e[23m"
 " Highlight duration of vim-highlighted-yank
 let g:highlightedyank_highlight_duration = 25
 
+set termguicolors
 
 " CoC extensions
+" scss support
+autocmd FileType scss setl iskeyword+=@-@
 
 " coc-pairse Adds a closing pair of parenthesis/quotation marks etc.. 
 " and places the cursor in the middle
-let g:coc_global_extensions = ['coc-explorer', 'coc-tsserver', 'coc-json', 'coc-pairs']
+let g:coc_global_extensions = ['coc-explorer', 'coc-tsserver', 'coc-json', 'coc-pairs', 'coc-css', 'coc-rls']
 
 if(isdirectory('./node_modules'))
   let nm = './node_modules'
@@ -320,16 +343,34 @@ require'nvim-treesitter.configs'.setup {
   highlight = { enable = true },
   incremental_selection = { enable = false },
   context_commentstring = { enable = true },
-  ensure_installed = 'javascript'
+  ensure_installed = 'javascript',
+  indent = { enable = true},
+  playground = {
+  enable = true,
+  disable = {},
+  updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+  persist_queries = false, -- Whether the query persists across vim sessions
+  keybindings = {
+    toggle_query_editor = 'o',
+    toggle_hl_groups = 'i',
+    toggle_injected_languages = 't',
+    toggle_anonymous_nodes = 'a',
+    toggle_language_display = 'I',
+    focus_language = 'f',
+    unfocus_language = 'F',
+    update = 'R',
+    goto_node = '<cr>',
+    show_help = '?',
+    },
+  }
 }
 
-vim.wo.foldmethod = 'expr'
-vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+require'colorizer'.setup()
+
 EOF
 endif
 
 " Important 
-set termguicolors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
@@ -376,4 +417,6 @@ endfunction
 "call GruvboxTheme()
 call GruvboxMaterialTheme()
 "call TokyoNightsTheme()
+
+":autocmd BufEnter * if match(@%,'/ivix-api/')>=0 | execute NordTheme() | else | colorscheme synthwave84 | end
 
