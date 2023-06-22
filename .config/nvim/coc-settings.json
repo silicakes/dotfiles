@@ -1,0 +1,57 @@
+{
+  "coc.preferences.formatOnSave": true,
+  "codeLens.enable": true,
+  "eslint.autoFixOnSave": true,
+  "explorer.icon.enableNerdfont": true,
+  "explorer.file.showHiddenFiles": true,
+  "rust-analyzer.check.command": "clippy",
+  "rust-analyzer.checkOnSave": true,
+  "rust-analyzer.cargo.features": "all",
+  "tsserver.tsdk": "./node_modules/typescript/lib",
+  "workspace.ignoredFolders": ["$HOME", "$HOME/.cargo/**", "$HOME/.rustup/**"],
+  "languageserver": {
+    "clangd": {
+      "command": "clangd",
+      "rootPatterns": ["compile_flags.txt", "compile_commands.json"],
+      "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"]
+    },
+    "daml": {
+      "command": "daml",
+      "args": ["damlc", "ide", "--RTS", "+RTS", "-M6G", "-N"],
+      "filetypes": ["daml", "haskell"]
+    },
+    "graphql": {
+      "command": "graphql-lsp",
+      "args": ["server", "-m", "stream"],
+      "filetypes": ["typescript", "typescriptreact", "graphql"]
+    },
+    "vimls": {
+      "module": "~/.config/yarn/global/node_modules/vim-language-server/bin/index.js",
+      "args": ["--node-ipc"],
+      "initializationOptions": {
+        "iskeyword": "@,48-57,_,192-255,-#",
+        "vimruntime": "",
+        "runtimepath": "",
+        "diagnostic": {
+          "enable": true
+        },
+        "indexes": {
+          "runtimepath": true,
+          "gap": 100,
+          "count": 3,
+          "projectRootPatterns": [
+            "strange-root-pattern",
+            ".git",
+            "autoload",
+            "plugin"
+          ]
+        },
+        "suggest": {
+          "fromVimruntime": true,
+          "fromRuntimepath": false
+        }
+      },
+      "filetypes": ["vim"]
+    }
+  }
+}
