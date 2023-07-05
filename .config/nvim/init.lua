@@ -15,9 +15,11 @@ vim.keymap.set("n", "<leader>w", ":w<CR>")
 vim.keymap.set("n", "<leader>q", ":q<CR>")
 vim.keymap.set("n", "<leader>1", ":new ~/.config/nvim/lua/plug.lua<CR>")
 vim.keymap.set("n", "<leader>2", ":new ~/.config/nvim/init.lua<CR>")
-vim.keymap.set("n", "U", "<C-R>")
-vim.keymap.set("n", "-", ":Lexplore<CR>")
 vim.keymap.set("n", "<leader>3", ":Telescope undo<CR>")
+vim.keymap.set("n", "U", "<C-R>")
+-- vim.keymap.set("n", "-", ":20Lexplore<CR>")
+vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
+vim.keymap.set("n", "<leader>ib", ":IndentBlanklineToggle<CR>")
 
 -- Theme
 require("rose-pine").setup({ variant = "moon" })
@@ -34,3 +36,7 @@ vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldcolumn = "3"
 vim.opt.foldlevel = 99
+vim.o.completeopt = "menuone,noinsert,noselect"
+
+-- change to current buffers cwd
+-- vim.opt.autochdir = true

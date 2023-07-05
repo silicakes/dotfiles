@@ -37,10 +37,13 @@ local formatter_config = {
 				}
 			end,
 		},
+		rust = {
+			require("formatter.filetypes.rust").rustfmt,
+		},
 	},
 }
 
-function file_exists(name)
+local function file_exists(name)
 	local f = io.open(name, "r")
 	if f ~= nil then
 		io.close(f)
@@ -59,28 +62,12 @@ local prettierd_config = function()
 	}
 end
 
-function dump(o)
-	if type(o) == "table" then
-		local s = "{ "
-		for k, v in pairs(o) do
-			if type(k) ~= "number" then
-				k = '"' .. k .. '"'
-			end
-			s = s .. "[" .. k .. "] = " .. dump(v) .. ","
-		end
-		return s .. "} "
-	else
-		return tostring(o)
-	end
-end
-
 local prettierd_files =
-{ "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "css", "scss", "json" }
+	{ "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "css", "scss", "json" }
 
 for _, ft in ipairs(prettierd_files) do
 	formatter_config.filetype[ft] = { prettierd_config }
 end
 
--- print(dump(formatter_config))
 -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
 require("formatter").setup(formatter_config)

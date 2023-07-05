@@ -19,12 +19,12 @@ require("lazy").setup({
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
 	"neovim/nvim-lspconfig",
-	"simrat39/rust-tools.nvim",
 	"nvim-lualine/lualine.nvim",
 	"nvim-tree/nvim-web-devicons",
 	"nvim-treesitter/nvim-treesitter",
 	"numToStr/Comment.nvim",
 	"mhartington/formatter.nvim",
+	"lukas-reineke/indent-blankline.nvim",
 	{ "rose-pine/neovim", name = "rose-pine" },
 	{
 		"VonHeikemen/lsp-zero.nvim",
@@ -67,6 +67,21 @@ require("lazy").setup({
 	},
 	{
 		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
+	{
+		"j-hui/fidget.nvim",
+		tag = "legacy",
+		config = function()
+			require("fidget").setup({
+				debug = {
+					logging = true,
+				},
+			})
+		end,
+	},
+	{
+		"stevearc/oil.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
 })
