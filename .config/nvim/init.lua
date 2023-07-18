@@ -22,8 +22,8 @@ vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" }
 vim.keymap.set("n", "<leader>ib", ":IndentBlanklineToggle<CR>")
 
 -- Theme
-require("rose-pine").setup({ variant = "moon" })
-vim.cmd("colorscheme rose-pine")
+-- require("rose-pine").setup({ variant = "moon" })
+vim.cmd("colorscheme nord")
 
 -- Widths
 vim.api.nvim_set_option("tabstop", 2)

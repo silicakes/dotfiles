@@ -25,6 +25,7 @@ require("lazy").setup({
 	"numToStr/Comment.nvim",
 	"mhartington/formatter.nvim",
 	"lukas-reineke/indent-blankline.nvim",
+	"shaunsingh/nord.nvim",
 	{ "rose-pine/neovim", name = "rose-pine" },
 	{
 		"VonHeikemen/lsp-zero.nvim",
