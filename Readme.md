@@ -1,3 +1,5 @@
+![image](https://github.com/silicakes/dotfiles/assets/1759539/ea871946-d7f1-4f76-a9c0-53c9f79cd7b9)
+
 # dotfiles I'd like to keep.
 Based on the [awesome tutorial](https://www.ackama.com/what-we-think/the-best-way-to-store-your-dotfiles-a-bare-git-repository-explained/) by Gabrielle Young
 
