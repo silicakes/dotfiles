@@ -40,6 +40,9 @@ local formatter_config = {
 		rust = {
 			require("formatter.filetypes.rust").rustfmt,
 		},
+		python = {
+			require("formatter.filetypes.python").autopep8,
+		},
 	},
 }
 

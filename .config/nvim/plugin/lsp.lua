@@ -1,3 +1,5 @@
+local util = require("lspconfig.util")
+
 -- LSP Diagnostics Options Setup
 local sign = function(opts)
 	vim.fn.sign_define(opts.name, {
@@ -66,6 +68,10 @@ lspconfig.tsserver.setup({
 	-- cmd = { "node", "./node_modules/typescript/lib/tsserver.js", "--stdio" },
 })
 
+lspconfig.tailwindcss.setup({
+	capabilities = capabilities,
+})
+
 lspconfig.prismals.setup({
 	capabilities = capabilities,
 })
@@ -79,6 +85,10 @@ lspconfig.lua_ls.setup({
 			},
 		},
 	},
+})
+
+lspconfig.pylyzer.setup({
+	capabilities = capabilities,
 })
 
 lspconfig.rust_analyzer.setup({

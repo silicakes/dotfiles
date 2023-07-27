@@ -23,9 +23,19 @@ require("lazy").setup({
 	"nvim-tree/nvim-web-devicons",
 	"nvim-treesitter/nvim-treesitter",
 	"numToStr/Comment.nvim",
+	"JoosepAlviste/nvim-ts-context-commentstring",
 	"mhartington/formatter.nvim",
 	"lukas-reineke/indent-blankline.nvim",
 	"shaunsingh/nord.nvim",
+	"roobert/tailwindcss-colorizer-cmp.nvim",
+	{
+		"NvChad/nvim-colorizer.lua",
+		opts = {
+			user_default_options = {
+				tailwind = true,
+			},
+		},
+	},
 	{ "rose-pine/neovim", name = "rose-pine" },
 	{
 		"VonHeikemen/lsp-zero.nvim",
