@@ -66,7 +66,7 @@ local prettierd_config = function()
 end
 
 local prettierd_files =
-	{ "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "css", "scss", "json" }
+	{ "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "css", "scss", "json", "prisma" }
 
 for _, ft in ipairs(prettierd_files) do
 	formatter_config.filetype[ft] = { prettierd_config }

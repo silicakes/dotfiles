@@ -1,4 +1,5 @@
 local util = require("lspconfig.util")
+require("yaml-companion").setup({})
 
 -- LSP Diagnostics Options Setup
 local sign = function(opts)
@@ -8,6 +9,7 @@ local sign = function(opts)
 		numhl = "",
 	})
 end
+
 sign({ name = "DiagnosticSignError", text = "" })
 sign({ name = "DiagnosticSignWarn", text = "" })
 sign({ name = "DiagnosticSignHint", text = "" })
@@ -43,6 +45,34 @@ augroup END
 
 local lsp = require("lsp-zero").preset({})
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+lsp.set_preferences({
+	suggest_lsp_servers = true,
+	setup_servers_on_start = true,
+	set_lsp_keymaps = true,
+	configure_diagnostics = true,
+	cmp_capabilities = true,
+	manage_nvim_cmp = true,
+	call_servers = "local",
+	sign_icons = {
+		error = "✘",
+		warn = "▲",
+		hint = "⚑",
+		info = "",
+	},
+})
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+	virtual_text = true,
+	signs = true,
+	update_in_insert = true,
+})
+
+-- enable inline diagnostics
+vim.diagnostic.config({
+	virtual_text = true,
+})
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { focusable = false })
 
 lsp.on_attach(function(client, bufnr)
 	local opts = { buffer = bufnr }
@@ -63,9 +93,36 @@ local lspconfig = require("lspconfig")
 --
 --
 
-lspconfig.tsserver.setup({
+-- lspconfig.tsserver.setup({
+-- 	capabilities = capabilities,
+-- 	-- cmd = { "node", "./node_modules/typescript/lib/tsserver.js", "--stdio" },
+-- })
+--
+lspconfig.yamlls.setup({
 	capabilities = capabilities,
-	-- cmd = { "node", "./node_modules/typescript/lib/tsserver.js", "--stdio" },
+})
+
+require("typescript-tools").setup({
+	capabilities = capabilities,
+	settings = {
+		-- spawn additional tsserver instance to calculate diagnostics on it
+		-- separate_diagnostic_server = true,
+		-- "change"|"insert_leave" determine when the client asks the server about diagnostic
+		publish_diagnostic_on = "change",
+		tsserver_file_preferences = {
+			includeInlayParameterNameHints = "all",
+			includeInlayEnumMemberValueHints = true,
+			includeInlayFunctionLikeReturnTypeHints = true,
+			includeInlayFunctionParameterTypeHints = true,
+			includeInlayPropertyDeclarationTypeHints = true,
+			includeInlayVariableTypeHints = true,
+			quotePreference = "auto",
+		},
+		tsserver_format_options = {
+			allowIncompleteCompletions = false,
+			allowRenameOfImportPath = false,
+		},
+	},
 })
 
 lspconfig.tailwindcss.setup({
@@ -74,6 +131,58 @@ lspconfig.tailwindcss.setup({
 
 lspconfig.prismals.setup({
 	capabilities = capabilities,
+})
+
+lspconfig.jsonls.setup({
+	capabilities = capabilities,
+	filetypes = { "json", "jsonc" },
+	settings = {
+		json = {
+			-- Schemas https://www.schemastore.org
+			schemas = {
+				{
+					fileMatch = { "package.json" },
+					url = "https://json.schemastore.org/package.json",
+				},
+				{
+					fileMatch = { "tsconfig*.json" },
+					url = "https://json.schemastore.org/tsconfig.json",
+				},
+				{
+					fileMatch = {
+						".prettierrc",
+						".prettierrc.json",
+						"prettier.config.json",
+					},
+					url = "https://json.schemastore.org/prettierrc.json",
+				},
+				{
+					fileMatch = { ".eslintrc", ".eslintrc.json" },
+					url = "https://json.schemastore.org/eslintrc.json",
+				},
+				{
+					fileMatch = { ".babelrc", ".babelrc.json", "babel.config.json" },
+					url = "https://json.schemastore.org/babelrc.json",
+				},
+				{
+					fileMatch = { "lerna.json" },
+					url = "https://json.schemastore.org/lerna.json",
+				},
+				{
+					fileMatch = { "now.json", "vercel.json" },
+					url = "https://json.schemastore.org/now.json",
+				},
+				{
+					fileMatch = {
+						".stylelintrc",
+						".stylelintrc.json",
+						"stylelint.config.json",
+					},
+					url = "http://json.schemastore.org/stylelintrc.json",
+				},
+			},
+		},
+	},
 })
 
 -- Supress warning for global vim
@@ -122,58 +231,13 @@ lspconfig.rust_analyzer.setup({
 		},
 	},
 })
-lsp.setup()
 
--- Completion Plugin Setup
--- Keeping it here because it requires a specific order
--- local cmp = require("cmp")
--- cmp.setup({
--- 	snippet = {
--- 		expand = function(args)
--- 			require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
--- 		end,
--- 	},
---
--- 	mapping = {
--- 		["<C-p>"] = cmp.mapping.select_prev_item(),
--- 		["<C-n>"] = cmp.mapping.select_next_item(),
--- 		-- Add tab support
--- 		["<S-Tab>"] = cmp.mapping.select_prev_item(),
--- 		["<Tab>"] = cmp.mapping.select_next_item(),
--- 		["<C-S-f>"] = cmp.mapping.scroll_docs(-4),
--- 		["<C-f>"] = cmp.mapping.scroll_docs(4),
--- 		["<C-Space>"] = cmp.mapping.complete(),
--- 		["<C-e>"] = cmp.mapping.close(),
--- 		["<CR>"] = cmp.mapping.confirm({
--- 			behavior = cmp.ConfirmBehavior.Insert,
--- 			select = true,
--- 		}),
--- 	},
--- 	-- Installed sources:
--- 	sources = {
--- 		{ name = "path" }, -- file paths
--- 		{ name = "nvim_lsp", keyword_length = 3 }, -- from language server
--- 		{ name = "nvim_lsp_signature_help" }, -- display function signatures with current parameter emphasized
--- 		{ name = "nvim_lua", keyword_length = 2 }, -- complete neovim's Lua runtime API such vim.lsp.*
--- 		{ name = "buffer", keyword_length = 2 }, -- source current buffer
--- 		{ name = "luasnip", keyword_length = 2 }, -- nvim-cmp source for vim-vsnip
--- 		{ name = "calc" }, -- source for math calculation
--- 	},
--- 	window = {
--- 		completion = cmp.config.window.bordered(),
--- 		documentation = cmp.config.window.bordered(),
--- 	},
--- 	formatting = {
--- 		fields = { "menu", "abbr", "kind" },
--- 		format = function(entry, item)
--- 			local menu_icon = {
--- 				nvim_lsp = "λ",
--- 				luasnip = "⋗",
--- 				buffer = "Ω",
--- 				path = "🖫",
--- 			}
--- 			item.menu = menu_icon[entry.source.name]
--- 			return item
--- 		end,
--- 	},
--- })
+lsp.setup()
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, keymap_opts)
+vim.keymap.set("n", "K", vim.lsp.buf.hover, keymap_opts)
+vim.keymap.set("n", "gi", vim.lsp.buf.implementation, keymap_opts)
+vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, keymap_opts)
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, keymap_opts)
+vim.keymap.set("n", "<leader>fs", ":lua vim.lsp.buf.format({async = true})<CR> <BAR> <cmd>update<CR>") -- format on save
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)

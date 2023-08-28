@@ -28,6 +28,30 @@ require("lazy").setup({
 	"lukas-reineke/indent-blankline.nvim",
 	"shaunsingh/nord.nvim",
 	"roobert/tailwindcss-colorizer-cmp.nvim",
+	"someone-stole-my-name/yaml-companion.nvim",
+	{ "michaelb/sniprun", build = "sh install.sh" },
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		init = function()
+			vim.o.timeout = true
+			vim.o.timeoutlen = 300
+		end,
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+		},
+	},
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		opts = {}, -- this is equalent to setup({}) function
+	},
+	{
+		"pmizio/typescript-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+	},
 	{
 		"NvChad/nvim-colorizer.lua",
 		opts = {
