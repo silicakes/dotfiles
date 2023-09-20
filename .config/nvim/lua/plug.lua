@@ -29,6 +29,7 @@ require("lazy").setup({
 	"shaunsingh/nord.nvim",
 	"roobert/tailwindcss-colorizer-cmp.nvim",
 	"someone-stole-my-name/yaml-companion.nvim",
+	{ "nvim-pack/nvim-spectre", opts = {} },
 	{ "michaelb/sniprun", build = "sh install.sh" },
 	{
 		"folke/which-key.nvim",
