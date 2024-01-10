@@ -25,25 +25,29 @@ require("lazy").setup({
 	"numToStr/Comment.nvim",
 	"JoosepAlviste/nvim-ts-context-commentstring",
 	"mhartington/formatter.nvim",
-	"lukas-reineke/indent-blankline.nvim",
 	"shaunsingh/nord.nvim",
 	"roobert/tailwindcss-colorizer-cmp.nvim",
 	"someone-stole-my-name/yaml-companion.nvim",
-	{ "nvim-pack/nvim-spectre", opts = {} },
-	{ "michaelb/sniprun", build = "sh install.sh" },
+	"f-person/git-blame.nvim",
+	"EdenEast/nightfox.nvim",
+	"mxsdev/nvim-dap-vscode-js",
+	{ "folke/twilight.nvim", opts = {} },
+	{ "j-hui/fidget.nvim", opts = {} },
 	{
-		"folke/which-key.nvim",
-		event = "VeryLazy",
-		init = function()
-			vim.o.timeout = true
-			vim.o.timeoutlen = 300
-		end,
-		opts = {
-			-- your configuration comes here
-			-- or leave it empty to use the default settings
-			-- refer to the configuration section below
+		"mfussenegger/nvim-dap",
+		dependencies = {
+			-- "rcarriga/nvim-dap-ui",
+			-- lazy spec to build "microsoft/vscode-js-debug" from source
+			{
+				"microsoft/vscode-js-debug",
+				version = "1.x",
+				build = "npm i && npm run compile vsDebugServerBundle && mv dist out",
+			},
 		},
 	},
+	{ "lukas-reineke/indent-blankline.nvim", main = "ibl" },
+	{ "nvim-pack/nvim-spectre", opts = {} },
+	{ "HiPhish/rainbow-delimiters.nvim" },
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
@@ -66,7 +70,6 @@ require("lazy").setup({
 		"VonHeikemen/lsp-zero.nvim",
 		branch = "v2.x",
 		dependencies = {
-			-- LSP Support
 			{ "neovim/nvim-lspconfig" }, -- Required
 			{ -- Optional
 				"williamboman/mason.nvim",
@@ -75,7 +78,6 @@ require("lazy").setup({
 				end,
 			},
 			{ "williamboman/mason-lspconfig.nvim" }, -- Optional
-
 			-- Autocompletion
 			{ "hrsh7th/nvim-cmp" }, -- Required
 			{ "hrsh7th/cmp-nvim-lsp" }, -- Required
@@ -86,35 +88,21 @@ require("lazy").setup({
 		"kylechui/nvim-surround",
 		version = "*", -- Use for stability; omit to use `main` branch for the latest features
 		event = "VeryLazy",
-		config = function()
-			require("nvim-surround").setup({
-				-- Configuration here, or leave empty to use defaults
-			})
-		end,
+		opts = {},
 	},
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.1",
+		branch = "0.1.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"debugloop/telescope-undo.nvim",
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+			{ "nvim-telescope/telescope-live-grep-args.nvim", version = "^1.0.0" },
 		},
 	},
 	{
 		"folke/trouble.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-	},
-	{
-		"j-hui/fidget.nvim",
-		tag = "legacy",
-		config = function()
-			require("fidget").setup({
-				debug = {
-					logging = true,
-				},
-			})
-		end,
 	},
 	{
 		"stevearc/oil.nvim",

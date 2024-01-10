@@ -18,9 +18,10 @@ vim.keymap.set("n", "<leader>1", ":tabe ~/.config/nvim/lua/plug.lua<CR>")
 vim.keymap.set("n", "<leader>2", ":tabe ~/.config/nvim/init.lua<CR>")
 vim.keymap.set("n", "<leader>3", ":Telescope undo<CR>")
 vim.keymap.set("n", "U", "<C-R>")
+-- vim.keymap.set({ "n" }, "s", "<Plug>(leap-forward-to)")
 -- vim.keymap.set("n", "-", ":20Lexplore<CR>")
 vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
-vim.keymap.set("n", "<leader>ib", ":IndentBlanklineToggle<CR>")
+vim.keymap.set("n", "<leader>ib", ":IBLToggle<CR>")
 
 -- Copy / yank from system clipboard
 vim.keymap.set("n", "<leader>Y", '"+Y')
@@ -29,7 +30,11 @@ vim.keymap.set("n", "<leader>y", '"+y')
 -- Theme
 require("rose-pine").setup({ variant = "moon" })
 -- vim.cmd("colorscheme nord")
-vim.cmd("colorscheme rose-pine")
+-- vim.cmd("colorscheme rose-pine")
+vim.cmd("colorscheme nightfox")
+
+-- Show current path
+vim.keymap.set("n", "<leader>g", "<c-g>g")
 
 -- Widths
 vim.api.nvim_set_option("tabstop", 2)

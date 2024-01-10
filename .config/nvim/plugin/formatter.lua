@@ -57,9 +57,11 @@ local function file_exists(name)
 end
 
 local prettierd_config = function()
-	local local_path = "node_modules/prettier/bin/prettier"
+	-- local local_path = "node_modules/.bin/prettier"
 	return {
-		exe = (file_exists(local_path) and local_path or "prettier"),
+		-- exe = (file_exists(local_path) and local_path or "prettier"),
+		exe = "prettier",
+		try_node_modules = true,
 		args = { vim.api.nvim_buf_get_name(0) },
 		stdin = true,
 	}
