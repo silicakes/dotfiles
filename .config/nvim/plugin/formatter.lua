@@ -57,21 +57,48 @@ local function file_exists(name)
 end
 
 local prettierd_config = function()
-	-- local local_path = "node_modules/.bin/prettier"
+	local local_path = "node_modules/.bin/prettier"
 	return {
-		-- exe = (file_exists(local_path) and local_path or "prettier"),
-		exe = "prettier",
+		exe = (file_exists(local_path) and local_path or "prettier"),
+		-- exe = "prettier",
 		try_node_modules = true,
 		args = { vim.api.nvim_buf_get_name(0) },
 		stdin = true,
 	}
 end
 
-local prettierd_files =
-	{ "javascript", "javascriptreact", "typescript", "typescriptreact", "html", "css", "scss", "json", "prisma" }
+local eslint_config = {
+	cmd = "eslint",
+	args = {
+		"--fix",
+		file_path,
+	},
+	-- just try to fix error with eslint, ignore the errors whether it succeed or not
+	ignore_err = function()
+		return true
+	end,
+	-- only the last task's `on_success` works
+	-- all tasks's `on_err` works
+	on_success = function()
+		print("format success")
+	end,
+}
+
+local prettierd_files = {
+	"javascript",
+	"javascriptreact",
+	"typescript",
+	"typescriptreact",
+	"html",
+	"css",
+	"scss",
+	"json",
+	"jsonc",
+	"prisma",
+}
 
 for _, ft in ipairs(prettierd_files) do
-	formatter_config.filetype[ft] = { prettierd_config }
+	formatter_config.filetype[ft] = { prettierd_config, eslint_config }
 end
 
 -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands

@@ -31,6 +31,19 @@ require("lazy").setup({
 	"f-person/git-blame.nvim",
 	"EdenEast/nightfox.nvim",
 	"mxsdev/nvim-dap-vscode-js",
+	"eandrju/cellular-automaton.nvim",
+	"b0o/schemastore.nvim",
+	{
+		"kevinhwang91/nvim-ufo",
+		dependencies = {
+			"kevinhwang91/promise-async",
+		},
+		opts = {
+			provider_selector = function(bufnr, filetype, buftype)
+				return { "treesitter", "indent" }
+			end,
+		},
+	},
 	{ "folke/twilight.nvim", opts = {} },
 	{ "j-hui/fidget.nvim", opts = {} },
 	{

@@ -1,6 +1,7 @@
 -- imports
 require("plug")
 
+vim.cmd("colorscheme nightfox")
 -- General settings
 vim.cmd("set number relativenumber")
 vim.opt.completeopt = { "menuone", "noselect", "noinsert" }
@@ -24,14 +25,13 @@ vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" }
 vim.keymap.set("n", "<leader>ib", ":IBLToggle<CR>")
 
 -- Copy / yank from system clipboard
-vim.keymap.set("n", "<leader>Y", '"+Y')
-vim.keymap.set("n", "<leader>y", '"+y')
+vim.keymap.set({ "n", "i", "v" }, "<leader>Y", '"+Y')
+vim.keymap.set({ "n", "i", "v" }, "<leader>y", '"+y')
 
 -- Theme
-require("rose-pine").setup({ variant = "moon" })
+-- require("rose-pine").setup({ variant = "moon" })
 -- vim.cmd("colorscheme nord")
 -- vim.cmd("colorscheme rose-pine")
-vim.cmd("colorscheme nightfox")
 
 -- Show current path
 vim.keymap.set("n", "<leader>g", "<c-g>g")
@@ -41,10 +41,12 @@ vim.api.nvim_set_option("tabstop", 2)
 vim.api.nvim_set_option("softtabstop", 2)
 vim.api.nvim_set_option("shiftwidth", 2)
 
--- Treesitter folding
-vim.opt.foldenable = false
-vim.wo.foldmethod = "expr"
-vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
-vim.opt.foldcolumn = "3"
+-- UFO folding
+vim.opt.foldenable = true
+-- vim.wo.foldmethod = "expr"
+-- vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldcolumn = "1"
 vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+
 vim.o.completeopt = "menuone,noinsert,noselect"
