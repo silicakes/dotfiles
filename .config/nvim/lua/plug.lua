@@ -30,9 +30,75 @@ require("lazy").setup({
 	"someone-stole-my-name/yaml-companion.nvim",
 	"f-person/git-blame.nvim",
 	"EdenEast/nightfox.nvim",
-	"mxsdev/nvim-dap-vscode-js",
 	"eandrju/cellular-automaton.nvim",
 	"b0o/schemastore.nvim",
+	"rebelot/kanagawa.nvim",
+	{ "FabijanZulj/blame.nvim", opts = {} },
+	{
+		"akinsho/flutter-tools.nvim",
+		lazy = false,
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"stevearc/dressing.nvim", -- optional for vim.ui.select
+		},
+		config = true,
+	},
+	{ "folke/zen-mode.nvim", opts = {
+		window = {
+			width = 180,
+		},
+	} },
+	{
+		"epwalsh/obsidian.nvim",
+		version = "*", -- recommended, use latest release instead of latest commit
+		lazy = true,
+		ft = "markdown",
+		-- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
+		event = {
+			-- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+			-- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
+			-- refer to `:h file-pattern` for more examples
+			"BufReadPre ~/.vaults/personal/*.md",
+			"BufNewFile ~/.vaults/personal/*.md",
+			"BufReadPre ~/.vaults/work/*.md",
+			"BufNewFile ~/.vaults/work/*.md",
+		},
+		dependencies = {
+			-- Required.
+			"nvim-lua/plenary.nvim",
+		},
+		opts = {
+			templates = {
+				folder = "templates",
+				date_format = "%Y-%m-%d-%a",
+				time_format = "%H:%M",
+			},
+			workspaces = {
+				{
+					name = "personal",
+					path = "~/.vaults/personal/",
+				},
+				{
+					name = "work",
+					path = "~/.vaults/work/",
+				},
+			},
+		},
+	},
+	{
+		"microsoft/vscode-js-debug",
+		version = "1.x",
+		build = "npm i && npm run compile vsDebugServerBundle && mv dist out",
+	},
+	{
+		"rcarriga/nvim-dap-ui",
+		dependencies = {
+			"mfussenegger/nvim-dap",
+			"nvim-neotest/nvim-nio",
+			"theHamsta/nvim-dap-virtual-text",
+			"mxsdev/nvim-dap-vscode-js",
+		},
+	},
 	{
 		"kevinhwang91/nvim-ufo",
 		dependencies = {
@@ -44,20 +110,7 @@ require("lazy").setup({
 			end,
 		},
 	},
-	{ "folke/twilight.nvim", opts = {} },
 	{ "j-hui/fidget.nvim", opts = {} },
-	{
-		"mfussenegger/nvim-dap",
-		dependencies = {
-			-- "rcarriga/nvim-dap-ui",
-			-- lazy spec to build "microsoft/vscode-js-debug" from source
-			{
-				"microsoft/vscode-js-debug",
-				version = "1.x",
-				build = "npm i && npm run compile vsDebugServerBundle && mv dist out",
-			},
-		},
-	},
 	{ "lukas-reineke/indent-blankline.nvim", main = "ibl" },
 	{ "nvim-pack/nvim-spectre", opts = {} },
 	{ "HiPhish/rainbow-delimiters.nvim" },

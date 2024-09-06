@@ -1,7 +1,7 @@
 -- imports
 require("plug")
 
-vim.cmd("colorscheme nightfox")
+-- vim.cmd("colorscheme " .. colorscheme)
 -- General settings
 vim.cmd("set number relativenumber")
 vim.opt.completeopt = { "menuone", "noselect", "noinsert" }
@@ -48,5 +48,41 @@ vim.opt.foldenable = true
 vim.opt.foldcolumn = "1"
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
-
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.wo.conceallevel = 2
 vim.o.completeopt = "menuone,noinsert,noselect"
+
+vim.api.nvim_create_user_command("Rfinder", function()
+	local path = vim.api.nvim_buf_get_name(0)
+	os.execute("open -R " .. path)
+end, {})
+
+-- Function to change the colorscheme
+vim.opt.termguicolors = true
+local colorscheme = "nightfox"
+vim.cmd.colorscheme(colorscheme)
+-- vim.cmd("hi Normal guibg=none")
+
+local function change_colorscheme()
+	vim.cmd([[set termguicolors]])
+	local my_directory = vim.fn.expand("~/.vaults")
+	local current_dir = vim.fn.expand("%:p:h")
+	if string.match(current_dir, my_directory) then
+		vim.cmd("colorscheme kanagawa")
+	else
+		vim.cmd.colorscheme(colorscheme)
+	end
+end
+
+-- Create an autocommand
+-- vim.api.nvim_create_autocmd({ "BufEnter", "BufNewFile" }, {
+-- 	callback = change_colorscheme,
+-- 	desc = "Change colorscheme when editing within a specific folder",
+-- })
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+	callback = function()
+		colorscheme = vim.g.colors_name
+	end,
+})
