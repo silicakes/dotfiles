@@ -16,6 +16,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+	{ import = "plugins" },
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
 	"neovim/nvim-lspconfig",
@@ -33,6 +34,19 @@ require("lazy").setup({
 	"eandrju/cellular-automaton.nvim",
 	"b0o/schemastore.nvim",
 	"rebelot/kanagawa.nvim",
+	"xiyaowong/transparent.nvim",
+	{
+		"ray-x/go.nvim",
+		dependencies = { -- optional packages
+			"ray-x/guihua.lua",
+			"neovim/nvim-lspconfig",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		opts = {},
+		event = { "CmdlineEnter" },
+		ft = { "go", "gomod" },
+		build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+	},
 	{ "FabijanZulj/blame.nvim", opts = {} },
 	{
 		"akinsho/flutter-tools.nvim",
@@ -48,43 +62,6 @@ require("lazy").setup({
 			width = 180,
 		},
 	} },
-	{
-		"epwalsh/obsidian.nvim",
-		version = "*", -- recommended, use latest release instead of latest commit
-		lazy = true,
-		ft = "markdown",
-		-- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-		event = {
-			-- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-			-- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
-			-- refer to `:h file-pattern` for more examples
-			"BufReadPre ~/.vaults/personal/*.md",
-			"BufNewFile ~/.vaults/personal/*.md",
-			"BufReadPre ~/.vaults/work/*.md",
-			"BufNewFile ~/.vaults/work/*.md",
-		},
-		dependencies = {
-			-- Required.
-			"nvim-lua/plenary.nvim",
-		},
-		opts = {
-			templates = {
-				folder = "templates",
-				date_format = "%Y-%m-%d-%a",
-				time_format = "%H:%M",
-			},
-			workspaces = {
-				{
-					name = "personal",
-					path = "~/.vaults/personal/",
-				},
-				{
-					name = "work",
-					path = "~/.vaults/work/",
-				},
-			},
-		},
-	},
 	{
 		"microsoft/vscode-js-debug",
 		version = "1.x",
@@ -122,6 +99,7 @@ require("lazy").setup({
 	{
 		"pmizio/typescript-tools.nvim",
 		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		opts = {},
 	},
 	{
 		"NvChad/nvim-colorizer.lua",
@@ -159,16 +137,13 @@ require("lazy").setup({
 	{
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",
+		tag = "0.1.8",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"debugloop/telescope-undo.nvim",
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 			{ "nvim-telescope/telescope-live-grep-args.nvim", version = "^1.0.0" },
 		},
-	},
-	{
-		"folke/trouble.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
 	{
 		"stevearc/oil.nvim",

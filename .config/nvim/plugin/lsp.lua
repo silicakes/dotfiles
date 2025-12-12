@@ -28,23 +28,23 @@ augroup FormatAutogroup
 augroup END
 ]])
 
-local lsp = require("lsp-zero").preset({})
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-lsp.set_preferences({
-	suggest_lsp_servers = true,
-	setup_servers_on_start = true,
-	set_lsp_keymaps = true,
-	configure_diagnostics = true,
-	cmp_capabilities = true,
-	manage_nvim_cmp = true,
-	call_servers = "local",
-	sign_icons = {
-		error = "✘",
-		warn = "▲",
-		hint = "⚑",
-		info = "",
-	},
-})
+-- local lsp = require("lsp-zero").preset({})
+-- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- lsp.set_preferences({
+-- 	suggest_lsp_servers = true,
+-- 	setup_servers_on_start = true,
+-- 	set_lsp_keymaps = true,
+-- 	configure_diagnostics = true,
+-- 	cmp_capabilities = true,
+-- 	manage_nvim_cmp = true,
+-- 	call_servers = "local",
+-- 	sign_icons = {
+-- 		error = "✘",
+-- 		warn = "▲",
+-- 		hint = "⚑",
+-- 		info = "",
+-- 	},
+-- })
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 	virtual_text = true,
@@ -59,17 +59,18 @@ vim.diagnostic.config({
 
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { focusable = false })
 
-lsp.on_attach(function(client, bufnr)
-	local opts = { buffer = bufnr }
-	lsp.default_keymaps(opts)
-	vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
-	vim.keymap.set({ "n", "v" }, "<leader>ac", vim.lsp.buf.code_action, opts)
-end)
+-- lsp.on_attach(function(client, bufnr)
+-- 	local opts = { buffer = bufnr }
+-- 	lsp.default_keymaps(opts)
+-- 	vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
+-- 	vim.keymap.set({ "n", "v" }, "<leader>ac", vim.lsp.buf.code_action, opts)
+-- end)
 
 -- (Optional) Configure lua language server for neovim
 -- require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
 
-local lspconfig = require("lspconfig")
+-- local lspconfig = require("lspconfig")
+local lspconfig = vim.lsp.config
 
 -- vim.lsp.set_log_level("debug")
 -- local on_attach = function(client)
@@ -83,7 +84,7 @@ local lspconfig = require("lspconfig")
 -- 	-- cmd = { "node", "./node_modules/typescript/lib/tsserver.js", "--stdio" },
 -- })
 --
-lspconfig.yamlls.setup({
+lspconfig("yamlls", {
 	capabilities = capabilities,
 })
 
@@ -110,15 +111,15 @@ require("typescript-tools").setup({
 	},
 })
 
-lspconfig.tailwindcss.setup({
+lspconfig("tailwindcss", {
 	capabilities = capabilities,
 })
 
-lspconfig.prismals.setup({
+lspconfig("prismals", {
 	capabilities = capabilities,
 })
 
-lspconfig.jsonls.setup({
+lspconfig("jsonls", {
 	capabilities = capabilities,
 	filetypes = { "json", "jsonc" },
 	settings = {
@@ -127,7 +128,7 @@ lspconfig.jsonls.setup({
 })
 
 -- Supress warning for global vim
-lspconfig.lua_ls.setup({
+lspconfig("lua_ls", {
 	settings = {
 		Lua = {
 			diagnostics = {
@@ -141,7 +142,7 @@ lspconfig.lua_ls.setup({
 -- 	capabilities = capabilities,
 -- })
 
-lspconfig.rust_analyzer.setup({
+lspconfig("rust_analyzer", {
 	capabilities = capabilities,
 	settings = {
 		["rust-analyzer"] = {
@@ -173,7 +174,7 @@ lspconfig.rust_analyzer.setup({
 	},
 })
 
-lsp.setup()
+-- lsp.setup()
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, keymap_opts)
 vim.keymap.set("n", "K", vim.lsp.buf.hover, keymap_opts)

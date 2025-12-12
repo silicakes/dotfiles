@@ -8,6 +8,9 @@ local formatter_config = {
 	log_level = vim.log.levels.WARN,
 	-- All formatter configurations are opt-in
 	filetype = {
+		go = {
+			require("formatter.filetypes.go").goimports,
+		},
 		-- Formatter configurations for filetype "lua" go here
 		-- and will be executed in order
 		lua = {

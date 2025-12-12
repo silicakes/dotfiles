@@ -60,7 +60,7 @@ end, {})
 
 -- Function to change the colorscheme
 vim.opt.termguicolors = true
-local colorscheme = "nightfox"
+local colorscheme = "nordfox"
 vim.cmd.colorscheme(colorscheme)
 -- vim.cmd("hi Normal guibg=none")
 
